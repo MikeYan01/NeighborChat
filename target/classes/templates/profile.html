@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Profile & Settings</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="../static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Menu CSS -->
+    <link href="../static/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+    <!-- animation CSS -->
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="../static/css/style.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="../static/css/colors/default.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="fix-header">
+    <!-- ============================================================== -->
+    <!-- Preloader -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Wrapper -->
+    <!-- ============================================================== -->
+    <div id="wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div class="navbar-header">
+                <!-- /Logo -->
+                <ul class="nav navbar-top-links navbar-right pull-right">
+                    <li>
+                        <a class="nav-toggler open-close waves-effect waves-light hidden-md hidden-lg"
+                            href="javascript:void(0)"><i class="fa fa-bars"></i></a>
+                    </li>
+                    <li>
+                        <a class="profile-pic" href="#"> <img id = "avatar" src = "../static/plugins/images/users/default.png" alt="user-img"
+                            width="36" class="img-circle"><b id = "upper_right_name" class="hidden-xs">Steave</b></a>
+                    </li>
+                    <li>
+                        <a href="login.html"><b id = "logout" class="hidden-xs">Log Out</b></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-header -->
+            <!-- /.navbar-top-links -->
+            <!-- /.navbar-static-side -->
+        </nav>
+        <!-- End Top Navigation -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav slimscrollsidebar">
+                <div class="sidebar-head">
+                    <h3><span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span> <span
+                            class="hide-menu">Navigation</span></h3>
+                </div>
+                <ul class="nav" id="side-menu">
+                    <li style="padding: 70px 0 0;">
+                        <a href="dashboard.html" class="waves-effect"><i class="fa fa-bars fa-fw" aria-hidden="true"></i>Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="profile.html" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Profile & Settings</a>
+                    </li>
+                    <li>
+                        <a href="membership.html" class="waves-effect"><i class="fa fa-group fa-fw" aria-hidden="true"></i>Membership</a>
+                    </li>
+                    <li>
+                        <a href="relationship.html" class="waves-effect"><i class="fa fa-glass fa-fw" aria-hidden="true"></i>Relationship</a>
+                    </li>
+                    <li>
+                        <a href="post.html" class="waves-effect"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>Post Message</a>
+                    </li>
+                    <li>
+                        <a href="message.html" class="waves-effect"><i class="fa fa-envelope fa-fw" aria-hidden="true"></i>Message Box</a>
+                    </li>
+                    <li>
+                        <a href="map-google.html" class="waves-effect"><i class="fa fa-map-marker fa-fw" aria-hidden="true"></i>Google Map</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title">Profile page</h4>
+                    </div>
+                </div>
+                <!-- /.row -->
+                <!-- .row -->
+                <div class="row">
+                    <div class="col-md-4 col-xs-12">
+                        <div class="white-box">
+                            <div class="user-bg"> <img width="100%" alt="user" src="../static/plugins/images/large/img1.jpg">
+                                <div class="overlay-box">
+                                    <div class="user-content">
+                                        <a href="#"><img id = "photo" src="../static/plugins/images/users/default.png"
+                                                class="thumb-lg img-circle" alt="img"></a>
+                                        <h4 id = "userName" class="text-white">User Name</h4>
+                                        <h5 id = "blockName" class="text-white">Block Name</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="user-btm-box">
+                                <div class="col-md-4 col-sm-4 text-center">
+                                    <p class="text-purple"><i class="ti-facebook"></i></p>
+                                    <h1>258</h1>
+                                </div>
+                                <div class="col-md-4 col-sm-4 text-center">
+                                    <p class="text-blue"><i class="ti-twitter"></i></p>
+                                    <h1>125</h1>
+                                </div>
+                                <div class="col-md-4 col-sm-4 text-center">
+                                    <p class="text-danger"><i class="ti-dribbble"></i></p>
+                                    <h1>556</h1>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-xs-12">
+                        <div class="white-box">
+                            <form class="form-horizontal form-material">
+                                <div class="form-group">
+                                    <label class="col-md-12">Password</label>
+                                    <div class="col-md-12">
+                                        <input id = "password" value = "hhh" type="password" value="password" class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12">Email</label>
+                                    <div class="col-md-12">
+                                        <input id = "email" value = "hhh" type="email" placeholder="Email Address" class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12">First Name</label>
+                                    <div class="col-md-12">
+                                        <input id = "fName" value = "hhh" type="text" placeholder="First Name" class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12">Last Name</label>
+                                    <div class="col-md-12">
+                                        <input id = "lName" value = "hhh" type="text" placeholder="Last Name" class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12">Address Line 1</label>
+                                    <div class="col-md-12">
+                                        <input type="text" value = "hhh" placeholder="street and number, P.O. box, c/o." class="form-control form-control-line" name="addr1" id="addr1">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12">Address Line 2</label>
+                                    <div class="col-md-12">
+                                        <input type="text" value = "hhh" placeholder="apartment, suite, unit, building, floor, etc." class="form-control form-control-line" name="addr2" id="addr2">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12">Introduction</label>
+                                    <div class="col-md-12">
+                                        <textarea id = "intro" rows="3" class="form-control form-control-line" placeholder="Introduce yourself here">hhh</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12">Photo</label>
+                                    <div class="col-md-12">
+                                        <input type="file" placeholder="Update your photo file" accept="image/*" class="form-control form-control-line" id = "photo">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12">Notification</label>
+                                    <div class="col-md-12">
+                                        Notify new messages by Email &nbsp;  <input type="checkbox" value = 1 class="form-control-line" id = "email_receive">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-12">Re-choose neighbor range(Notice: only people in the range you specify can see your profile!)</label>
+                                    <div class="col-sm-12">
+                                        <select class="form-control form-control-line" id = "nRange">
+                                            <option>Same Building</option>
+                                            <option>Same Block</option>
+                                            <option>Same Hood</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type = "submit" value = "Update Profile" class = "btn btn-success" id = "update">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="../static/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../static/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="../static/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="../static/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="../static/js/waves.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="../static/js/custom.min.js"></script>
+
+    <script src="../static/js/profile.js"></script>
+    <script src="../static/js/jquery.cookie.js"></script>
+</body>
+
+</html>

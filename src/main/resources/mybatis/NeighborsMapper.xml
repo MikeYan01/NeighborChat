@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hypertars.neighborChat.dao.NeighborsDAO">
+
+    <select id="getNeighbors" resultType="com.hypertars.neighborChat.model.Neighbors" parameterType="java.lang.Integer">
+        SELECT uidA, uidB, nTime FROM Neighbors
+        WHERE uidA = #{uid};
+    </select>
+
+    <select id="getNeighborsFromBlock" resultType="com.hypertars.neighborChat.model.Neighbors" parameterType="java.lang.Integer">
+        SELECT uidA, uidB, nTime FROM Neighbors
+        WHERE uidA = #{uid} AND uidB in
+        (SELECT uid FROM UserBlock WHERE bid =
+        (SELECT bid FROM UserBlock WHERE uid = #{uid}));
+     </select>
+
+    <select id="getNeighborsFromHood" resultType="com.hypertars.neighborChat.model.Neighbors" parameterType="java.lang.Integer">
+        SELECT uidA, uidB, nTime FROM Neighbors
+        WHERE uidA = #{uid} AND uidB in
+        (SELECT uid FROM Blocks NATURAL JOIN UserBlock WHERE hid =
+        (SELECT hid FROM UserBlock NATURAL JOIN Blocks WHERE uid = #{uid}));
+    </select>
+
+    <select id="checkNeighbor" resultType="java.lang.Integer" parameterType="com.hypertars.neighborChat.model.Neighbors">
+        SELECT COUNT(*)
+        FROM Neighbors
+        WHERE uidA = #{uidA} AND uidB = #{uidB};
+    </select>
+
+    <insert id="addNeighbor" parameterType="com.hypertars.neighborChat.model.Neighbors">
+        INSERT INTO Neighbors (uidA, uidB)
+        VALUES (#{uidA}, #{uidB});
+    </insert>
+
+    <delete id="deleteNeighbor" parameterType="com.hypertars.neighborChat.model.Neighbors">
+        DELETE FROM Neighbors
+        WHERE uidA = #{uidA} AND uidB = #{uidB};
+    </delete>
+
+    <delete id="deleteAllNeighbors" parameterType="java.lang.Integer">
+        DELETE FROM Neighbors
+        WHERE uidA = #{uidA};
+    </delete>
+</mapper>

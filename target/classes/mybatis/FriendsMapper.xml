@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hypertars.neighborChat.dao.FriendsDAO">
+
+    <select id="getFriends" resultType="com.hypertars.neighborChat.model.Friends" parameterType="java.lang.Integer">
+        SELECT uidA, uidB, fTime FROM Friends
+        WHERE uidA = #{uid}
+        UNION
+        SELECT uidB, uidA, fTime FROM Friends
+        WHERE uidB = #{uid};
+    </select>
+
+    <select id="getFriendsFromBlock" resultType="com.hypertars.neighborChat.model.Friends" parameterType="java.lang.Integer">
+        SELECT uidA, uidB, fTime FROM Friends
+        WHERE uidA = #{uid} AND uidB in (SELECT uid FROM UserBlock WHERE bid = (SELECT bid FROM UserBlock WHERE uid = #{uid}))
+        UNION
+        SELECT uidB, uidA, fTime FROM Friends
+        WHERE uidB = #{uid} AND uidA in (SELECT uid FROM UserBlock WHERE bid = (SELECT bid FROM UserBlock WHERE uid = #{uid}));
+    </select>
+
+    <select id="getFriendsFromHood" resultType="com.hypertars.neighborChat.model.Friends" parameterType="java.lang.Integer">
+        SELECT uidA, uidB, fTime FROM Friends
+        WHERE uidA = #{uid} AND uidB in
+        (SELECT uid FROM Blocks NATURAL JOIN UserBlock WHERE hid =
+        (SELECT hid FROM UserBlock NATURAL JOIN Blocks WHERE uid = #{uid}))
+        UNION
+        SELECT uidB, uidA, fTime FROM Friends
+        WHERE uidB = #{uid} AND uidA in
+        (SELECT uid FROM Blocks NATURAL JOIN UserBlock WHERE hid =
+        (SELECT hid FROM UserBlock NATURAL JOIN Blocks WHERE uid = #{uid}));
+    </select>
+
+    <select id="getFriendsFromOld" resultType="com.hypertars.neighborChat.model.Friends" parameterType="java.lang.Integer">
+        SELECT uidA, uidB, fTime FROM Friends
+        WHERE uidA = #{uid} AND fTime &lt; (SELECT ubTime FROM UserBlock WHERE uid = #{uid} AND status = TRUE LIMIT 1)
+        UNION
+        SELECT uidB, uidA, fTime FROM Friends
+        WHERE uidB = #{uid} AND fTime &lt; (SELECT ubTime FROM UserBlock WHERE uid = #{uid} AND status = TRUE LIMIT 1);
+    </select>
+
+    <select id="checkFriends" resultType="java.lang.Integer" parameterType="com.hypertars.neighborChat.model.Friends">
+        SELECT COUNT(*) FROM Friends
+        WHERE (uidA = #{uidA} AND uidB = #{uidB}) OR (uidA = #{uidB} AND uidB = #{uidA});
+    </select>
+
+    <insert id="addFriend" parameterType="com.hypertars.neighborChat.model.Friends">
+        INSERT INTO Friends (uidA, uidB)
+        VALUES (#{uidA}, #{uidB});
+    </insert>
+
+    <delete id="deleteFriend" parameterType="com.hypertars.neighborChat.model.Friends">
+        DELETE FROM Friends
+        WHERE (uidA = #{uidA} AND uidB = #{uidB}) OR (uidA = #{uidB} AND uidB = #{uidA});
+    </delete>
+
+</mapper>

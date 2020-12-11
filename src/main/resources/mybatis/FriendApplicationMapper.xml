@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hypertars.neighborChat.dao.FriendApplicationDAO">
+
+    <select id="getFriendApplicationByApplicant" resultType="com.hypertars.neighborChat.model.FriendApplication" parameterType="java.lang.Integer">
+        SELECT applicant, recipient, txt, faTime, decision
+        FROM FriendApplication
+        WHERE applicant = #{applicant};
+    </select>
+
+    <select id="getFriendApplicationByRecipient" resultType="com.hypertars.neighborChat.model.FriendApplication" parameterType="java.lang.Integer">
+        SELECT applicant, recipient, txt, faTime, decision
+        FROM FriendApplication
+        WHERE recipient = #{recipient};
+    </select>
+
+    <update id="updateFriendApplication" parameterType="com.hypertars.neighborChat.model.FriendApplication">
+        UPDATE FriendApplication
+        SET faTime = CURRENT_TIMESTAMP
+        WHERE applicant = #{applicant} AND recipient = #{recipient};
+    </update>
+
+    <update id="acceptFriendApplication" parameterType="com.hypertars.neighborChat.model.FriendApplication">
+        UPDATE FriendApplication
+        SET decision = 1
+        WHERE applicant = #{applicant} AND recipient = #{recipient};
+    </update>
+
+    <update id="rejectFriendApplication" parameterType="com.hypertars.neighborChat.model.FriendApplication">
+        UPDATE FriendApplication
+        SET decision = 0
+        WHERE applicant = #{applicant} AND recipient = #{recipient};
+    </update>
+
+    <select id="notifyFriendApplicationMade" resultType="com.hypertars.neighborChat.model.FriendApplication" parameterType="java.lang.Integer">
+        SELECT applicant, recipient, txt, faTime, decision
+        FROM FriendApplication
+        WHERE applicant = #{applicant} AND decision != -1;
+    </select>
+
+    <select id="notifyNewFriendApplication" resultType="com.hypertars.neighborChat.model.FriendApplication" parameterType="java.lang.Integer">
+        SELECT applicant, recipient, txt, faTime, decision
+        FROM FriendApplication
+        WHERE recipient = #{recipient} AND faTime &gt; (SELECT lastLog FROM Users WHERE uid = #{recipient});
+    </select>
+
+    <insert id="addFriendApplication" parameterType="com.hypertars.neighborChat.model.FriendApplication">
+        INSERT INTO FriendApplication (applicant, recipient, txt)
+        VALUES (#{applicant}, #{recipient}, #{txt});
+    </insert>
+
+    <delete id="deleteFriendApplication" parameterType="com.hypertars.neighborChat.model.FriendApplication">
+        DELETE FROM FriendApplication
+        WHERE applicant = #{applicant} AND recipient = #{recipient};
+    </delete>
+
+    <select id="checkFriendApplication" resultType="java.lang.Integer" parameterType="com.hypertars.neighborChat.model.FriendApplication">
+        SELECT COUNT(*) FROM FriendApplication
+        WHERE applicant = #{applicant} AND recipient = #{recipient};
+    </select>
+
+</mapper>

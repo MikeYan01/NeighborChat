@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hypertars.neighborChat.dao.UserBlockDAO">
+
+    <select id="getUserBlocksByBid" resultType="com.hypertars.neighborChat.model.UserBlock" >
+        select uid, bid, ubTime, status from UserBlock where bid = #{bid} and status = true
+    </select>
+
+    <select id="getUserBlocksByUid" resultType="com.hypertars.neighborChat.model.UserBlock" >
+        select uid, bid, ubTime, status from UserBlock where uid = #{uid}
+    </select>
+
+    <update id="setAllUserBlocksInactive" parameterType="java.lang.Integer">
+        UPDATE UserBlock
+        SET status = false
+        WHERE uid = #{uid};
+    </update>
+
+    <insert id="addUserBlock" parameterType="com.hypertars.neighborChat.model.UserBlock" >
+        INSERT INTO UserBlock (uid, bid) values (#{uid}, #{bid});
+    </insert>
+
+    <select id="notifyNewBlockMember" resultType="com.hypertars.neighborChat.model.UserBlock" parameterType="java.lang.Integer">
+        SELECT uid, bid, ubTime, status FROM UserBlock
+        WHERE status = TRUE
+        AND bid = (SELECT bid FROM UserBlock WHERE uid = #{uid})
+        AND uid != #{uid}
+        AND ubTime > (SELECT lastLog FROM Users WHERE uid = #{uid});
+    </select>
+
+    <select id="countUsersByBid" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        SELECT COUNT(DISTINCT uid) FROM UserBlock
+        WHERE bid = #{bid} AND status = true;
+    </select>
+
+</mapper>

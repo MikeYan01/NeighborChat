@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hypertars.neighborChat.dao.BlockApplicationDAO">
+
+    <select id="getBlockApplicationByApplicant" resultType="com.hypertars.neighborChat.model.BlockApplication" parameterType="java.lang.Integer">
+        SELECT applicant, baTime, bid, txt, accepts, decisions
+        FROM BlockApplication WHERE applicant = #{applicant};
+    </select>
+
+    <insert id="addBlockApplication" parameterType="com.hypertars.neighborChat.model.BlockApplication">
+        INSERT INTO BlockApplication (applicant, bid, txt) VALUES (#{applicant}, #{bid}, #{txt});
+    </insert>
+
+    <update id="acceptBlockApplication" parameterType="com.hypertars.neighborChat.model.BlockApplication">
+        UPDATE BlockApplication SET accepts = accepts + 1, decisions = decisions + 1
+        WHERE applicant = #{applicant} AND bid = #{bid};
+    </update>
+
+    <update id="rejectBlockApplication" parameterType="com.hypertars.neighborChat.model.BlockApplication">
+        UPDATE BlockApplication SET decisions = decisions + 1 WHERE applicant = #{applicant} AND bid = #{bid};
+    </update>
+
+    <select id="notifyNewBlockApplication" resultType="com.hypertars.neighborChat.model.BlockApplication" parameterType="java.lang.Integer">
+        SELECT applicant, baTime, bid, txt, accepts, decisions
+        FROM BlockApplication NATURAL JOIN UserBlock
+        WHERE uid = #{uid} AND status = TRUE
+        AND baTime &gt; (SELECT lastLog FROM Users WHERE uid = #{uid});
+    </select>
+
+    <delete id="deleteBlockApplication"  parameterType="java.lang.Integer">
+        DELETE FROM BlockApplication
+        WHERE applicant = #{applicant} AND bid = #{bid};
+    </delete>
+
+    <select id="checkBlockApplicationExist" resultType="java.lang.Integer" parameterType="com.hypertars.neighborChat.model.BlockApplication">
+        SELECT COUNT(*) FROM BlockApplication
+        WHERE applicant = #{applicant} AND bid = #{bid}
+    </select>
+
+    <select id="getExactBlockApplication" resultType="com.hypertars.neighborChat.model.BlockApplication" parameterType="com.hypertars.neighborChat.model.BlockApplication">
+        SELECT applicant, baTime, bid, txt, accepts, decisions
+        FROM BlockApplication
+        WHERE applicant = #{applicant} AND bid = #{bid}
+    </select>
+
+</mapper>

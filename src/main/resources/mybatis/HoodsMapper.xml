@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hypertars.neighborChat.dao.HoodsDAO">
+
+    <select id="getHoodByHid" resultType="com.hypertars.neighborChat.model.Hoods" parameterType="java.lang.Integer">
+        SELECT hid, hname, SW, NE FROM Hoods
+        WHERE hid = #{hid};
+    </select>
+
+    <select id="getHoodByBid" resultType="com.hypertars.neighborChat.model.Hoods" parameterType="java.lang.Integer">
+        SELECT h.hid, h.hname, h.SW, h.NE FROM Hoods h JOIN Blocks USING (hid)
+        WHERE bid = #{bid};
+    </select>
+
+    <select id="getHoodByUid" resultType="com.hypertars.neighborChat.model.Hoods" parameterType="java.lang.Integer">
+        SELECT h.hid, h.hname, h.SW, h.NE FROM Hoods h JOIN Blocks USING (hid) JOIN UserBlock ub USING (bid)
+        WHERE uid = #{uid} AND ub.status = true;
+    </select>
+
+    <select id="getAllHoods" resultType="com.hypertars.neighborChat.model.Hoods">
+        SELECT hid, hname, SW, NE FROM Hoods;
+    </select>
+
+    <select id="getHnameByUid" resultType="java.lang.String" parameterType="java.lang.Integer">
+        SELECT hname FROM Hoods JOIN Blocks USING (hid) JOIN UserBlock USING (bid) WHERE uid = #{uid};
+    </select>
+
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hypertars.neighborChat.dao.MailBoxDAO">
+
+    <select id="getAllMsgthreadByUid" resultType="com.hypertars.neighborChat.model.MailBox" parameterType="java.lang.Integer">
+        SELECT uid, msgid, rd FROM MailBox
+        WHERE uid = #{uid};
+    </select>
+
+    <update id="setMsgthreadUnread" parameterType="com.hypertars.neighborChat.model.MailBox">
+        UPDATE MailBox SET rd = False
+        WHERE msgid = #{msgid} AND uid = #{uid};
+    </update>
+
+    <update id="setMsgthreadRead" parameterType="com.hypertars.neighborChat.model.MailBox">
+        UPDATE MailBox SET rd = True
+        WHERE msgid = #{msgid} AND uid = #{uid};
+    </update>
+
+    <insert id="addToMailBox" parameterType="com.hypertars.neighborChat.model.MailBox">
+        INSERT INTO MailBox (msgid, uid, rd)
+        VALUES (#{msgid}, #{uid}, #{rd});
+    </insert>
+
+    <select id="getMailBoxByMsgid" resultType="com.hypertars.neighborChat.model.MailBox" parameterType="java.lang.Integer">
+        SELECT uid, msgid, rd FROM MailBox
+        WHERE msgid = #{msgid};
+    </select>
+
+</mapper>

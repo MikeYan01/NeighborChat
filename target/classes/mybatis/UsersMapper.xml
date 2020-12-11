@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hypertars.neighborChat.dao.UsersDAO">
+
+    <select id="getUserByUid" resultType="com.hypertars.neighborChat.model.Users" parameterType="java.lang.Integer">
+        SELECT uid, uname, passwd, email, fName, lName, addr1, addr2, intro, photo, nRange, lastLog, notify
+        FROM Users WHERE uid = #{uid}
+    </select>
+
+    <select id="getUserByUName" resultType="com.hypertars.neighborChat.model.Users" parameterType="java.lang.String">
+        SELECT uid, uname, passwd, email, fName, lName, addr1, addr2, intro, photo, nRange, lastLog, notify
+        FROM Users WHERE uname = #{uname}
+    </select>
+
+    <select id="checkUName" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT COUNT(uname) FROM Users
+        WHERE uname = #{uname};
+    </select>
+
+    <select id="userAuth" resultType="com.hypertars.neighborChat.model.Users" parameterType="com.hypertars.neighborChat.model.Users">
+        SELECT uid, uname, passwd, email, fName, lName, addr1, addr2, intro, photo, nRange, lastLog, notify
+        FROM Users WHERE uname = #{uname} AND email = #{email};
+    </select>
+
+    <insert id="userReg" parameterType="com.hypertars.neighborChat.model.Users" useGeneratedKeys="true" keyProperty="uid">
+        INSERT INTO Users (uname, passwd, email, fName, lName)
+        VALUES (#{uname}, #{passwd}, #{email}, #{fName}, #{lName})
+    </insert>
+
+    <update id="resetPasswd" parameterType="com.hypertars.neighborChat.model.Users">
+        UPDATE Users
+        SET passwd = #{passwd}
+        WHERE uid = #{uid};
+    </update>
+
+    <update id="updateInfo" parameterType="com.hypertars.neighborChat.model.Users">
+        UPDATE Users
+        <set>
+            <if test="uname != null">uname = #{uname},</if>
+            <if test="passwd != null">passwd = #{passwd},</if>
+            <if test="passwd != null">email = #{email},</if>
+            <if test="fName != null">fName = #{fName},</if>
+            <if test="lName != null">lName = #{lName},</if>
+            <if test="addr1 != null">addr1 = #{addr1},</if>
+            <if test="addr2!= null">addr2 = #{addr2},</if>
+            <if test="intro!=null">intro=#{intro},</if>
+            <if test="photo != null">photo = #{photo},</if>
+            <if test="nRange != null">nRange = #{nRange},</if>
+            <if test="notify != null">notify = #{notify},</if>
+            uid = #{uid}
+        </set>
+        WHERE uid = #{uid};
+    </update>
+
+    <update id="updateLastLog" parameterType="java.lang.Integer">
+        UPDATE Users
+        SET lastLog = CURRENT_TIMESTAMP
+        WHERE uid = #{uid}
+    </update>
+
+    <select id="userFromSameBuilding" resultType="com.hypertars.neighborChat.model.Users" parameterType="java.lang.Integer">
+        SELECT uid, uname, passwd, email, fName, lName, addr1, addr2, intro, photo, nRange, lastLog, notify
+        FROM Users WHERE addr1 = (SELECT addr1 FROM Users WHERE uid = #{uid})
+        AND uid != #{uid};
+    </select>
+
+    <select id="userFromSameBlock" resultType="com.hypertars.neighborChat.model.Users" parameterType="java.lang.Integer">
+        SELECT uid, uname, passwd, email, fName, lName, addr1, addr2, intro, photo, nRange, lastLog, notify
+        FROM Users WHERE uid in (SELECT uid FROM UserBlock WHERE bid = (SELECT bid FROM UserBlock WHERE uid = #{uid}))
+        AND uid != #{uid};
+    </select>
+
+    <select id="userFromSameHood" resultType="com.hypertars.neighborChat.model.Users" parameterType="java.lang.Integer">
+        SELECT uid, uname, passwd, email, fName, lName, addr1, addr2, intro, photo, nRange, lastLog, notify
+        FROM Users WHERE uid in
+        (SELECT uid FROM Blocks NATURAL JOIN UserBlock WHERE hid =
+        (SELECT hid FROM UserBlock NATURAL JOIN Blocks WHERE uid = #{uid}))
+        AND uid != #{uid};
+    </select>
+
+
+</mapper>
